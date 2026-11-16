@@ -1,0 +1,513 @@
+#### 📄 檔案 2：`index.html`（完全對應 `AGENTS.md` 規則的高質感成品網站！）
+
+這份 `index.html` 已經幫你內建了 **3 個跨時代的經典臺灣史料走讀範例**（1. 北臺灣大稻埕茶金歲月、2. 白色恐怖景美與綠島人權走讀、3. 臺南大航海時代荷鄭貿易），每一張卡片都有**「史料摘要 ＋ 3 個具體歷史景點 ＋ 可點擊展開的三天兩夜行程表」**，還能按上方按鈕篩選時期！
+
+```html
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HistoriTrip Wiki｜臺灣史料轉譯與三天兩夜走讀知識庫</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #F7F4EF;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #EFECE6;
+      --border-color: #E2DDD5;
+      --accent-rust: #9E3B24;
+      --accent-rust-soft: rgba(158, 59, 36, 0.1);
+      --accent-slate: #3D5A6C;
+      --accent-slate-soft: rgba(61, 90, 108, 0.12);
+      --text-dark: #2B2927;
+      --text-muted: #6E6A64;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-family: 'Noto Sans TC', sans-serif;
+      line-height: 1.7;
+      padding-bottom: 4rem;
+    }
+
+    header {
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .brand-tag {
+      background: var(--accent-rust);
+      color: #FFF;
+      font-family: monospace;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .status-info {
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .status-info strong {
+      color: var(--accent-rust);
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 2.8rem auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .hero-subtitle {
+      color: var(--accent-rust);
+      font-family: monospace;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2.1rem;
+      line-height: 1.35;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 760px;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sop-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-rust);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .sop-steps {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .sop-step {
+      background: var(--bg-subtle);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      color: var(--text-dark);
+    }
+
+    .filter-bar {
+      max-width: 1100px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent-rust);
+      color: #FFF;
+      border-color: var(--accent-rust);
+    }
+
+    .wiki-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .wiki-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .wiki-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.6rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .wiki-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-rust);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .era-badge {
+      background: var(--accent-slate-soft);
+      color: var(--accent-slate);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .raw-source {
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .topic-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      color: var(--text-dark);
+    }
+
+    .historical-context {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+      background: var(--bg-main);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+    }
+
+    .section-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-rust);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .sites-list {
+      list-style: none;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .sites-list li {
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .sites-list li:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-btn {
+      width: 100%;
+      background: var(--accent-rust-soft);
+      color: var(--accent-rust);
+      border: 1px solid rgba(158, 59, 36, 0.3);
+      padding: 0.65rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn:hover {
+      background: var(--accent-rust);
+      color: #FFF;
+    }
+
+    .itinerary-drawer {
+      display: none;
+      margin-top: 1.1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    .itinerary-drawer.open {
+      display: block;
+    }
+
+    .day-block {
+      margin-bottom: 0.85rem;
+      padding-left: 0.75rem;
+      border-left: 3px solid var(--accent-slate);
+    }
+
+    .day-title {
+      font-weight: 700;
+      color: var(--accent-slate);
+      margin-bottom: 0.2rem;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 4rem auto 0;
+      padding: 2rem 1.5rem 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-bar">
+      <div class="brand">
+        <span class="brand-tag">HISTORITRIP WIKI</span>
+        <span>臺灣史料轉譯與三天兩夜走讀知識庫</span>
+      </div>
+      <div class="status-info">
+        Rulebook: <strong>AGENTS.md</strong> ｜ 已收錄走讀主題：<strong id="topic-count">3</strong> 組
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-subtitle">KARPATHY-STYLE LLM WIKI FOR HISTORICAL TRAVEL</div>
+    <h1>讀一段臺灣史料，<br>走一趟三天兩夜的歷史現場。</h1>
+    <p>
+      本知識庫由 <code>AGENTS.md</code> 規範驅動。每當將一份歷史文獻或讀書筆記放入 <code>raw/</code> 資料夾，AI Agent 就會自動提煉史料核心脈絡、匹配 3 個具代表性的實體歷史古蹟，並編排出一套可直接出發的「三天兩夜深度走讀行程」。
+    </p>
+    <div class="sop-box">
+      <div style="font-weight: 700; color: var(--accent-rust);">📜 AGENTS.md 自動化編譯規則：</div>
+      <div class="sop-steps">
+        <span class="sop-step">1. 放入 raw/*.md 史料</span>
+        <span>→</span>
+        <span class="sop-step">2. 提煉 100 字歷史脈絡</span>
+        <span>→</span>
+        <span class="sop-step">3. 對應 3 大實體古蹟景點</span>
+        <span>→</span>
+        <span class="sop-step">4. 生成 Day1~Day3 走讀路線</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCards('all', this)">全部歷史主題 (3)</button>
+    <button class="filter-btn" onclick="filterCards('qing-japanese', this)">清領與日治產業 (1)</button>
+    <button class="filter-btn" onclick="filterCards('modern-history', this)">戰後與現代人權記憶 (1)</button>
+    <button class="filter-btn" onclick="filterCards('maritime-early', this)">大航海與早期開發 (1)</button>
+  </div>
+
+  <main class="wiki-grid" id="wiki-grid">
+
+    <!-- Topic Card 01 -->
+    <article class="wiki-card" data-era="qing-japanese">
+      <div>
+        <div class="card-header">
+          <span class="era-badge">清領開港至日治時期 (1860s–1930s)</span>
+          <span class="raw-source">TOPIC-01 / raw-01-taipei-tea-dadaocheng.md</span>
+        </div>
+        <h2 class="topic-title">《茶金歲月：淡水河畔與大稻埕的跨國茶葉貿易》</h2>
+        <div class="historical-context">
+          <strong>【史料核心摘要】</strong> 1860 年淡水開港通商後，英商杜德（John Dodd）與李春生於北臺灣推廣烏龍茶，並將精製茶廠設於大稻埕。Formosa Oolong Tea 遠銷紐約與倫敦，不僅帶動大稻埕洋樓街廓、外國領事館與戲院的繁榮，更奠定近代臺北政經文化中心之基礎。
+        </div>
+        <div class="section-label">📍 史料對應之三大必訪景點：</div>
+        <ul class="sites-list">
+          <li><strong>1. 大稻埕新芳春茶行：</strong>保存完整的 1934 年日治時期「前店後廠、一樓焙茶二樓揀茶」茶商洋樓。</li>
+          <li><strong>2. 淡水海關碼頭與得忌利士洋行：</strong>見證十九世紀臺灣茶葉裝船出海、走向世界貿易網路的起點。</li>
+          <li><strong>3. 大溪老茶廠：</strong>結合臺日英建築語彙的百年製茶工廠，展現日治時期機械化製茶工業的演進。</li>
+        </ul>
+      </div>
+      <div>
+        <button class="toggle-btn" onclick="toggleItinerary(this)">展開三天兩夜走讀行程 (Day 1 ~ Day 3) ▾</button>
+        <div class="itinerary-drawer">
+          <div class="day-block">
+            <div class="day-title">Day 1：大稻埕茶商街廓與洋樓巡禮（臺北）</div>
+            <div>上午走訪【迪化街南段與李春生紀念教堂】➔ 下午深入【新芳春茶行】觀察焙籠間與揀茶區結構 ➔ 傍晚於【大稻埕碼頭】眺望淡水河水運動線，夜宿北門周邊古蹟旅店。</div>
+          </div>
+          <div class="day-block">
+            <div class="day-title">Day 2：順流而下・開港通商的國際門戶（淡水）</div>
+            <div>上午搭乘捷運或渡輪前往淡水，探訪【得忌利士洋行】與【淡水海關碼頭】➔ 下午參觀【前清淡水關稅務司官邸（小白宮）】與紅毛城領事館區 ➔ 晚間於淡水河畔品茗並返回市區。</div>
+          </div>
+          <div class="day-block">
+            <div class="day-title">Day 3：走入山林茶園與百年製茶廠（桃園大溪）</div>
+            <div>上午前往桃園【大溪老茶廠】導覽日治時期萎凋架與揉捻機 ➔ 下午漫步【大溪老街】觀察順時埔河階樟腦與茶葉集散商號牌樓 ➔ 選購臺灣烏龍茶伴手禮後賦歸。</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Topic Card 02 -->
+    <article class="wiki-card" data-era="modern-history">
+      <div>
+        <div class="card-header">
+          <span class="era-badge">戰後戒嚴與人權歷史 (1949–1987)</span>
+          <span class="raw-source">TOPIC-02 / raw-02-white-terror-jingmei-greenisland.md</span>
+        </div>
+        <h2 class="topic-title">《跨越黑水溝的記憶：從景美軍事法庭到綠島人權園區》</h2>
+        <div class="historical-context">
+          <strong>【史料核心摘要】</strong> 1949 年臺灣省戒嚴令頒布後，長達 38 年的白色恐怖時期中，許多知識分子、學生與異議人士先於臺北審訊、經景美看守所軍事法庭宣判後，再由基隆或臺東押解登船送往綠島「新生訓導處」與「綠洲山莊」服刑，留下深刻的人權歷史印記。
+        </div>
+        <div class="section-label">📍 史料對應之三大必訪景點：</div>
+        <ul class="sites-list">
+          <li><strong>1. 國家人權博物館（白色恐怖景美紀念園區）：</strong>保留第一法庭、軍事法庭與仁愛樓押房的歷史審判現場。</li>
+          <li><strong>2. 綠島白色恐怖紀念園區（綠洲山莊／新生訓導處）：</strong>重現當年政治受難者勞動改造、圍牆標語與八卦樓密閉監禁空間。</li>
+          <li><strong>3. 綠島人權紀念碑（垂淚碑）：</strong>面向太平洋的螺旋坡道石碑，鐫刻戒嚴時期受難者姓名與作家柏楊題字。</li>
+        </ul>
+      </div>
+      <div>
+        <button class="toggle-btn" onclick="toggleItinerary(this)">展開三天兩夜走讀行程 (Day 1 ~ Day 3) ▾</button>
+        <div class="itinerary-drawer">
+          <div class="day-block">
+            <div class="day-title">Day 1：審判起點與東岸啟程（臺北景美 ➔ 臺東）</div>
+            <div>上午參訪新店【白色恐怖景美紀念園區】（重點觀察第一法庭、仁愛樓押房與汪希苓特區）➔ 下午搭乘臺鐵新自強號南下臺東 ➔ 晚間入住臺東市區並閱讀受難者家書史料。</div>
+          </div>
+          <div class="day-block">
+            <div class="day-title">Day 2：登陸火燒島・新生訓導處與綠洲山莊（綠島）</div>
+            <div>上午自富岡漁港搭船前往綠島 ➔ 下午深度走讀【綠洲山莊（八卦樓）】與【新生訓導處展示區】（透過模型了解當年打石、種菜等勞動日常）➔ 傍晚於【人權紀念碑】聽海沉思。</div>
+          </div>
+          <div class="day-block">
+            <div class="day-title">Day 3：燕子洞歷史現場與海島地景（綠島 ➔ 賦歸）</div>
+            <div>上午走訪昔日受難者彩排演劇與墓葬遺址【燕子洞】及【牛頭山】草原眺望太平洋 ➔ 中午品嚐綠島在地海草料理 ➔ 下午搭船返回臺東富岡漁港，轉乘火車賦歸。</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Topic Card 03 -->
+    <article class="wiki-card" data-era="maritime-early">
+      <div>
+        <div class="card-header">
+          <span class="era-badge">大航海與明鄭時期 (1624–1683)</span>
+          <span class="raw-source">TOPIC-03 / raw-03-tainan-maritime-trade.md</span>
+        </div>
+        <h2 class="topic-title">《大員港的風帆：十七世紀荷蘭東印度公司與明鄭海商網路》</h2>
+        <div class="historical-context">
+          <strong>【史料核心摘要】</strong> 1624 年荷蘭東印度公司（VOC）於今日臺南安平建立「熱蘭遮城（Zeelandia）」，將臺灣納入連接巴達維亞、日本長崎與中國東南沿海的東亞轉口貿易中心；1661 年鄭成功橫渡鹿耳門攻克普羅民遮城，開啟漢人政權與儒學教育在臺制度化發展。
+        </div>
+        <div class="section-label">📍 史料對應之三大必訪景點：</div>
+        <ul class="sites-list">
+          <li><strong>1. 熱蘭遮堡（安平古堡）與臺灣城殘蹟：</strong>保存三百餘年以糯米汁、糖水與牡蠣殼灰砌成的荷蘭時期紅磚外城南壁。</li>
+          <li><strong>2. 赤崁樓（原普羅民遮城 Provintia）：</strong>見證荷蘭行政中心、明鄭承天府署至清代文昌閣與海神廟的疊壓歷史。</li>
+          <li><strong>3. 國立臺灣歷史博物館：</strong>透過系統化的荷蘭《熱蘭遮城日誌》史料與古地圖，完整重現十七世紀台江內海地貌。</li>
+        </ul>
+      </div>
+      <div>
+        <button class="toggle-btn" onclick="toggleItinerary(this)">展開三天兩夜走讀行程 (Day 1 ~ Day 3) ▾</button>
+        <div class="itinerary-drawer">
+          <div class="day-block">
+            <div class="day-title">Day 1：讀懂台江內海古地圖與赤崁城區（臺南中西區）</div>
+            <div>上午首站前往【國立臺灣歷史博物館】建立大航海時代全局觀 ➔ 下午走讀【赤崁樓】與周邊祀典武廟、大天后宮（原明寧靖王府）➔ 晚間漫步神農街清代五條港舊河道。</div>
+          </div>
+          <div class="day-block">
+            <div class="day-title">Day 2：重返一鯤鯓・熱蘭遮城與安平海貿現場（臺南安平）</div>
+            <div>上午深度考察【安平古堡（熱蘭遮城殘蹟）】與熱蘭遮城博物館 ➔ 下午走訪【安平樹屋（原德記洋行倉庫）】與四草綠色隧道（昔日台江內海水道遺留）➔ 傍晚於觀夕平台看海。</div>
+          </div>
+          <div class="day-block">
+            <div class="day-title">Day 3：全臺首學與府城文教脈絡（臺南孔廟園區）</div>
+            <div>上午參訪明鄭陳永華倡建之【臺南孔子廟（全臺首學）】與大成殿御匾 ➔ 中午於府中街與莉莉水果店小憩 ➔ 下午參觀【國立臺灣文學館（原日治臺南州廳）】後搭高鐵賦歸。</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <footer>
+    <p>© 2026 國立政治大學 財政三乙 蔡秉言 (113204016) ・ TAICA 生成式 AI 課程專案</p>
+    <p style="margin-top: 0.35rem;">Powered by Agentic Workflow &amp; <code>AGENTS.md</code> Standard Operating Procedure</p>
+  </footer>
+
+  <script>
+    function toggleItinerary(btn) {
+      const drawer = btn.nextElementSibling;
+      const isOpen = drawer.classList.toggle('open');
+      btn.textContent = isOpen
+        ? '收起三天兩夜走讀行程 (Day 1 ~ Day 3) ▴'
+        : '展開三天兩夜走讀行程 (Day 1 ~ Day 3) ▾';
+    }
+
+    function filterCards(era, clickedBtn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      clickedBtn.classList.add('active');
+
+      const cards = document.querySelectorAll('.wiki-card');
+      let count = 0;
+      cards.forEach(card => {
+        if (era === 'all' || card.dataset.era === era) {
+          card.style.display = 'flex';
+          count++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('topic-count').textContent = count;
+    }
+  </script>
+</body>
+</html>
